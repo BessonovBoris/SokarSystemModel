@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SolarObjects;
 
@@ -16,8 +15,6 @@ public class SolarSpriteObject : ISolarObject
         _solarObject = solarObject;
         _texture = texture;
         TextureScale = 1;
-
-        Console.WriteLine(_texture.Width);
     }
 
     public float TextureScale { get; set; }
@@ -37,7 +34,9 @@ public class SolarSpriteObject : ISolarObject
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        var vector2Coordinates = new Vector2(_solarObject.Coordinates.X - (_texture.Width * TextureScale / 2), _solarObject.Coordinates.Y - (_texture.Height * TextureScale / 2));
+        var bias = new Vector2(_texture.Width * TextureScale / 2, _texture.Height * TextureScale / 2);
+        Vector2 vector2Coordinates = _solarObject.Coordinates - bias;
+
         spriteBatch.Draw(_texture, vector2Coordinates, null, Color.White, 0, Vector2.Zero, TextureScale, SpriteEffects.None, 0);
     }
 }
