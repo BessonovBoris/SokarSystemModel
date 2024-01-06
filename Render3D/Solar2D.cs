@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SolarObjects;
+using SolarObjects.Settings;
 
 namespace Game1;
 
@@ -12,7 +13,6 @@ public class Solar2D : Game
 
     private readonly SolarSpriteObject _sun;
     private readonly SolarSpriteObject _earth;
-    private readonly SolarSpriteObject _earth2;
 
     private GraphicsDeviceManager _graphics;
     private SpriteBatch? _spriteBatch;
@@ -29,20 +29,17 @@ public class Solar2D : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
+        ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
+
         _sun = new SolarSpriteObject(
-            new SolarObject(3329400, new Vector2((float)Width / 2, (float)Height / 2)),
+            new SolarObject(3329400, new Vector2((float)Width / 2, (float)Height / 2), settings),
             Content.Load<Texture2D>("Sun"));
         _sun.TextureScale = 0.5f;
 
         _earth = new SolarSpriteObject(
-            new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 300), new Vector2(1500, 0)),
+            new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 300), new Vector2(1500, 0), settings),
             Content.Load<Texture2D>("Earth"));
         _earth.TextureScale = 0.2f;
-
-        _earth2 = new SolarSpriteObject(
-            new SolarObject(10, new Vector2(((float)Width / 2) + 600, (float)Height / 2), new Vector2(0, 1000)),
-            Content.Load<Texture2D>("Earth"));
-        _earth2.TextureScale = 0.2f;
     }
 
     protected override void Initialize()
@@ -62,12 +59,7 @@ public class Solar2D : Game
             Exit();
 
         _earth.InteractWithAnotherObject(_sun);
-        _earth.InteractWithAnotherObject(_earth2);
         _earth.Update();
-
-        _earth2.InteractWithAnotherObject(_sun);
-        _earth2.InteractWithAnotherObject(_earth);
-        _earth2.Update();
 
         base.Update(gameTime);
     }
@@ -84,7 +76,6 @@ public class Solar2D : Game
         _spriteBatch.Begin();
         _sun.Draw(_spriteBatch);
         _earth.Draw(_spriteBatch);
-        _earth2.Draw(_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
