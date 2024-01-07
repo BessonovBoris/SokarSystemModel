@@ -4,4 +4,5 @@ public interface ISettings
 {
     float DistanceScale { get; }
     float ConstantG { get; }
+    float EarthVelocity { get; }
 }

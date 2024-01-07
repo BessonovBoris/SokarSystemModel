@@ -1,1 +1,5 @@
-{"DistanceScale":498666.66,"ConstantG":12}
+{
+  "DistanceScale":500000,
+  "ConstantG":0.000000000667,
+  "EarthVelocity": 0.03
+}
