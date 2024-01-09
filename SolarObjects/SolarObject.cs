@@ -3,8 +3,6 @@ using SolarObjects.Settings;
 
 namespace SolarObjects;
 
-// 1,000,000 km = 1 myKm
-// 1,000,000 kg = 1 myKg
 public class SolarObject : ISolarObject
 {
     private readonly ISettings _settings;
@@ -25,14 +23,15 @@ public class SolarObject : ISolarObject
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
+        // TODO: как сделать нормальный масштаб???? Я НЕ ПОНИМАЮ
         Vector2 radiusVector = _coordinates - solarObject.Coordinates;
-        Vector2 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / radiusVector.Length();
+        Vector2 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / (float)Math.Pow(radiusVector.Length(), 3);
 
         _velocity += velocity;
     }
 
     public void Update()
     {
-        _coordinates += _velocity * 1000;
+        _coordinates += _velocity;
     }
 }

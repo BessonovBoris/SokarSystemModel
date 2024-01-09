@@ -32,12 +32,12 @@ public class Solar2D : Game
         ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
 
         _sun = new SolarSpriteObject(
-            new SolarObject(3330000, new Vector2((float)Width / 2, (float)Height / 2), settings),
+            new SolarObject(settings.SunMass, new Vector2((float)Width / 2, (float)Height / 2), settings),
             Content.Load<Texture2D>("Sun"));
         _sun.TextureScale = 0.5f;
 
         _earth = new SolarSpriteObject(
-            new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
+            new SolarObject(settings.EarthMass, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
             Content.Load<Texture2D>("Earth"));
         _earth.TextureScale = 0.2f;
     }

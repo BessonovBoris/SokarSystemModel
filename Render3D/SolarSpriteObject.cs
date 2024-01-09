@@ -4,7 +4,6 @@ using SolarObjects;
 
 namespace Game1;
 
-#pragma warning disable CA1001
 public class SolarSpriteObject : ISolarObject
 {
     private readonly ISolarObject _solarObject;
