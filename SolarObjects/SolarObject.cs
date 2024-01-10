@@ -1,27 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
+using SolarObjects.Settings;
 
 namespace SolarObjects;
 
 public class SolarObject : ISolarObject
 {
-    private const float Scale = 29920000;
-    private const float G = 12;
+    private readonly ISettings _settings;
     private Vector3 _coordinates;
     private Vector3 _velocity;
 
-    public SolarObject(int mass)
-    {
-        _coordinates = Vector3.Zero;
-        _velocity = Vector3.Zero;
-        Mass = mass;
-    }
-
-    public SolarObject(int mass, Vector3 coordinates)
+    public SolarObject(int mass, Vector3 coordinates,  ISettings settings)
     {
         Mass = mass;
         _coordinates = coordinates;
+        _settings = settings;
 
-        _velocity = Vector3.Zero;
+        _velocity = new Vector3(_settings.EarthVelocity, 0, 0);
     }
 
     public Vector3 Coordinates => _coordinates;
@@ -29,16 +23,15 @@ public class SolarObject : ISolarObject
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
+        // TODO: как сделать нормальный масштаб???? Я НЕ ПОНИМАЮ
         Vector3 radiusVector = _coordinates - solarObject.Coordinates;
-        Vector3 velocity = -G * solarObject.Mass * radiusVector / (radiusVector.Length() * Scale);
+        Vector3 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / (float)Math.Pow(radiusVector.Length(), 1);
 
         _velocity += velocity;
     }
 
     public void Update()
     {
-        _coordinates += _velocity / 100;
-
-        // _velocity = Vector3.Zero;
+        _coordinates += _velocity;
     }
 }
