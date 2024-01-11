@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SolarObjects;
+#pragma warning disable IDE0005
 using SolarObjects.Settings;
+#pragma warning restore IDE0005
 
 namespace Game1;
 
@@ -16,7 +18,7 @@ public class Solar2D : Game
 
 #pragma warning disable CA2213
     private GraphicsDeviceManager _graphics;
-#pragma warning restore CA2213
+#pragma warning disable CA2213
 #pragma warning disable CA2213
     private SpriteBatch? _spriteBatch;
 #pragma warning restore CA2213
@@ -36,14 +38,20 @@ public class Solar2D : Game
         ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
 
         _sun = new SolarSpriteObject(
-            new SolarObject(settings.SunMass, new Vector2((float)Width / 2, (float)Height / 2), settings),
+            new SolarObject(3330000, new Vector2((float)Width / 2, (float)Height / 2), settings),
             Content.Load<Texture2D>("Sun"));
-        _sun.TextureScale = 0.5f;
+        _sun.TextureScale = 1f;
 
         _earth = new SolarSpriteObject(
-            new SolarObject(settings.EarthMass, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
-            Content.Load<Texture2D>("Earth"));
-        _earth.TextureScale = 0.2f;
+            new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
+            Content.Load<Texture2D>("FirstEarth"),
+            Content.Load<Texture2D>("SecondEarth"),
+            Content.Load<Texture2D>("ThirdEarth"),
+            Content.Load<Texture2D>("FourthEarth"));
+        _earth.TextureScale = 0.3f;
+
+        // если идеально высчитывать разницу в размерах
+        // _earth.TextureScale = 0.00917431f;
     }
 
     protected override void Initialize()
