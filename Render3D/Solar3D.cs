@@ -10,21 +10,21 @@ public class Solar3D : Game
 {
     private readonly Vector3 _camPos;
     private readonly Vector3 _camTar;
-
+#pragma warning disable CA2213
     private readonly BasicEffect _effect;
 
     private readonly SolarModelObject _sun;
     private readonly SolarModelObject _earth;
 
     private GraphicsDeviceManager _graphics;
-
+#pragma warning restore CA2213
     private Matrix _projectionMatrix;
     private Matrix _viewMatrix;
     private Matrix _worldMatrix;
 
     public Solar3D()
     {
-        _camPos = new Vector3(0, 0, 88);
+        _camPos = new Vector3(0, 0, 1);
         _camTar = new Vector3(0, 0, 0);
 
         _graphics = new GraphicsDeviceManager(this);
@@ -44,11 +44,11 @@ public class Solar3D : Game
 
         _sun = new SolarModelObject(
             new SolarObject(settings.SunMass, new Vector3(0, 0, 0), settings),
-            Content.Load<Model>("CubeBlender"));
+            Content.Load<Model>("Globe"));
 
         _earth = new SolarModelObject(
             new SolarObject(settings.EarthMass, new Vector3(70.71f, 70.71f, 0), settings),
-            Content.Load<Model>("CubeBlender"));
+            Content.Load<Model>("Globe"));
     }
 
     protected override void Initialize()
@@ -59,7 +59,7 @@ public class Solar3D : Game
             MathHelper.PiOver4,
             Window.ClientBounds.Width / (float)Window.ClientBounds.Height,
             1,
-            1000);
+            10000000);
 
         _worldMatrix = Matrix.CreateWorld(new Vector3(0, 0, -200), new Vector3(0, 0, -1), Vector3.Up);
 
@@ -85,6 +85,36 @@ public class Solar3D : Game
         if (Keyboard.GetState().IsKeyDown(Keys.S))
         {
             _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, 0, 0.5f));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.A))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.D))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0.5f));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, 0.5f, 0));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, -0.5f, 0));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Right))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0));
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Left))
+        {
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0));
         }
 
         _earth.InteractWithAnotherObject(_sun);

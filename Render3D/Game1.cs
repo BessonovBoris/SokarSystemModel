@@ -9,23 +9,29 @@ public class Game1 : Game
 {
     private const float CamSpeed = -0.001f;
 
-    private readonly Vector3 _camPos;
+    private Vector3 _camPos;
     private Vector3 _camTar;
 
+#pragma warning disable CA2213
     private GraphicsDeviceManager _graphics;
+#pragma warning restore CA2213
+#pragma warning disable CA2213
     private SpriteBatch? _spriteBatch;
+#pragma warning restore CA2213
 
     private Matrix _projectionMatrix;
     private Matrix _viewMatrix;
     private Matrix _worldMatrix;
 
+    // // Orbit
+    // private bool orbit;
     private Model? _model;
     private Model? _model2;
 
     public Game1()
     {
         _camPos = new Vector3(0, 0, 0);
-        _camTar = new Vector3(1f, 0, 1f);
+        _camTar = new Vector3(0f, 0, 1f);
 
         _graphics = new GraphicsDeviceManager(this);
         _graphics.IsFullScreen = false;
@@ -40,6 +46,8 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        // _camTar = new Vector3(0f, 0f, 0f);
+        // _camPos = new Vector3(0f, 0f, -100f);
         _viewMatrix = Matrix.CreateLookAt(_camPos, _camTar, Vector3.Up);
 
         _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
@@ -50,6 +58,7 @@ public class Game1 : Game
 
         _worldMatrix = Matrix.CreateWorld(new Vector3(0f, 0f, 10f), new Vector3(0, 0, -1), Vector3.Up);
 
+        // _worldMatrix = Matrix.CreateWorld(_camTar, Vector3.Forward, Vector3.Up);
         base.Initialize();
     }
 
@@ -76,6 +85,7 @@ public class Game1 : Game
                 new Vector4(0, 0, 0, 1));
 
             _camTar.Y += rotateMatrixY.Determinant();
+            _camPos.Y += rotateMatrixY.Determinant();
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Down))
@@ -88,6 +98,7 @@ public class Game1 : Game
                 new Vector4(0, 0, 0, 1));
 
             _camTar.Y -= rotateMatrixY.Determinant();
+            _camPos.Y -= rotateMatrixY.Determinant();
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
@@ -100,6 +111,7 @@ public class Game1 : Game
                 new Vector4(0, 0, 0, 1));
 
             _camTar.Z -= rotateMatrixZ.Determinant();
+            _camPos.Z -= rotateMatrixZ.Determinant();
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Right))
@@ -112,6 +124,7 @@ public class Game1 : Game
                 new Vector4(0, 0, 0, 1));
 
             _camTar.Z += rotateMatrixZ.Determinant();
+            _camPos.Z += rotateMatrixZ.Determinant();
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.W))
