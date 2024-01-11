@@ -14,8 +14,12 @@ public class Solar2D : Game
     private readonly SolarSpriteObject _sun;
     private readonly SolarSpriteObject _earth;
 
+#pragma warning disable CA2213
     private GraphicsDeviceManager _graphics;
+#pragma warning restore CA2213
+#pragma warning disable CA2213
     private SpriteBatch? _spriteBatch;
+#pragma warning restore CA2213
 
     public Solar2D()
     {
