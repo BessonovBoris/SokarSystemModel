@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SolarObjects;
 
@@ -8,59 +7,23 @@ namespace Game1;
 public class SolarSpriteObject : ISolarObject
 {
     private readonly ISolarObject _solarObject;
+    private readonly IAnimation _animation;
 
-    private Texture2D? _texture;
-    private Texture2D? _textureUp;
-    private Texture2D? _textureDown;
-
-    public SolarSpriteObject(ISolarObject solarObject, Texture2D texture)
+    public SolarSpriteObject(ISolarObject solarObject, IAnimation animation)
     {
-        _texture = null;
+        _animation = animation;
         _solarObject = solarObject;
-        Texture = texture;
-        _textureUp = null;
-        _textureDown = null;
-        TextureScale = 1;
-    }
-
-    public SolarSpriteObject(ISolarObject solarObject, Texture2D textureUp, Texture2D textureDown)
-    {
-        _texture = null;
-        _solarObject = solarObject;
-        _textureUp = textureUp;
-        _textureDown = textureDown;
-        Texture = _textureDown;
         TextureScale = 1;
     }
 
     public float TextureScale { get; set; }
-
-    public Texture2D? Texture
-    {
-        get
-        {
-            if (_solarObject.Coordinates.Y > 700)
-            {
-                _texture = _textureDown;
-                return _texture;
-            }
-
-            if (_solarObject.Coordinates.Y < 300)
-            {
-                _texture = _textureUp;
-                return _texture;
-            }
-
-            return _texture;
-        }
-        set => _texture = value;
-    }
 
     public Vector2 Coordinates => _solarObject.Coordinates;
     public float Mass => _solarObject.Mass;
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
+        _animation.ChangeTexture(Coordinates - solarObject.Coordinates);
         _solarObject.InteractWithAnotherObject(solarObject);
     }
 
@@ -71,14 +34,11 @@ public class SolarSpriteObject : ISolarObject
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (Texture is null)
-        {
-            throw new ArgumentException("Texture is null");
-        }
+        Texture2D texture = _animation.CurrentTexture;
 
-        var bias = new Vector2(Texture.Width * TextureScale / 2, Texture.Height * TextureScale / 2);
+        var bias = new Vector2(texture.Width * TextureScale / 2, texture.Height * TextureScale / 2);
         Vector2 vector2Coordinates = _solarObject.Coordinates - bias;
 
-        spriteBatch.Draw(Texture, vector2Coordinates, null, Color.White, 0, Vector2.Zero, TextureScale, SpriteEffects.None, 0);
+        spriteBatch.Draw(texture, vector2Coordinates, null, Color.White, 0, Vector2.Zero, TextureScale, SpriteEffects.None, 0);
     }
 }

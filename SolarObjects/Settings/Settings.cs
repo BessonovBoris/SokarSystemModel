@@ -14,10 +14,12 @@ public class Settings : ISettings
 
         ConstantG = 6.67e-11f; // in H*m^2/new kg^2
         ConstantG /= 1e+6f; // in H*kg^2/new kg^2
+
         ConstantG *= (float)Math.Pow(MassScale / DistanceScale, 2); // in H*newKM^2/new newKG^2
 
-        // TODO: это исправить
-        ConstantG = 6.67e-10f;
+        // ConstantG *= MassScale / (float)Math.Pow(DistanceScale, 3); // in H*newKM^2/new newKG^2
+
+        // ConstantG = 6.67e-10f;
     }
 
     // 1 newKM = DistanceScale km

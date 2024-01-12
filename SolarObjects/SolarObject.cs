@@ -26,13 +26,13 @@ public class SolarObject : ISolarObject
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
         Vector2 radiusVector = _coordinates - solarObject.Coordinates;
-        Vector2 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / radiusVector.Length();
+        Vector2 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / (float)Math.Pow(radiusVector.Length(), 3);
 
         _velocity += velocity;
     }
 
     public void Update()
     {
-        _coordinates += _velocity * 1000;
+        _coordinates += _velocity;
     }
 }

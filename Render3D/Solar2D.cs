@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SolarObjects;
@@ -31,16 +32,17 @@ public class Solar2D : Game
 
         ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
 
+        IAnimation sunAnimation = new SunAnimation(new List<Texture2D> { Content.Load<Texture2D>("Sun") });
         _sun = new SolarSpriteObject(
-            new SolarObject(3330000, new Vector2((float)Width / 2, (float)Height / 2), settings),
-            Content.Load<Texture2D>("Sun"));
-        _sun.TextureScale = 1f;
+            new SolarObject(settings.SunMass, new Vector2((float)Width / 2, (float)Height / 2), settings),
+            sunAnimation);
+        _sun.TextureScale = 0.2f;
 
+        IAnimation earthAnimation = new EarthAnimation(new List<Texture2D> { Content.Load<Texture2D>("FirstEarth"), Content.Load<Texture2D>("SecondEarth") });
         _earth = new SolarSpriteObject(
-            new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
-            Content.Load<Texture2D>("FirstEarth"),
-            Content.Load<Texture2D>("SecondEarth"));
-        _earth.TextureScale = 0.3f;
+            new SolarObject(settings.EarthMass, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
+            earthAnimation);
+        _earth.TextureScale = 0.1f;
 
         // если идеально высчитывать разницу в размерах
         // _earth.TextureScale = 0.00917431f;
