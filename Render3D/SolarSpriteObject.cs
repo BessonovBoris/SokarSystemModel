@@ -10,9 +10,7 @@ public class SolarSpriteObject : ISolarObject
     private readonly ISolarObject _solarObject;
 
     private Texture2D? _texture;
-    private Texture2D? _textureLeft;
     private Texture2D? _textureUp;
-    private Texture2D? _textureRight;
     private Texture2D? _textureDown;
 
     public SolarSpriteObject(ISolarObject solarObject, Texture2D texture)
@@ -20,22 +18,18 @@ public class SolarSpriteObject : ISolarObject
         _texture = null;
         _solarObject = solarObject;
         Texture = texture;
-        _textureLeft = null;
         _textureUp = null;
-        _textureRight = null;
         _textureDown = null;
         TextureScale = 1;
     }
 
-    public SolarSpriteObject(ISolarObject solarObject, Texture2D textureLeft, Texture2D textureUp, Texture2D textureRight, Texture2D textureDown)
+    public SolarSpriteObject(ISolarObject solarObject, Texture2D textureUp, Texture2D textureDown)
     {
         _texture = null;
         _solarObject = solarObject;
-        _textureLeft = textureLeft;
         _textureUp = textureUp;
-        _textureRight = textureRight;
         _textureDown = textureDown;
-        Texture = _textureUp;
+        Texture = _textureDown;
         TextureScale = 1;
     }
 
@@ -47,7 +41,7 @@ public class SolarSpriteObject : ISolarObject
         {
             if (_solarObject.Coordinates.Y > 700)
             {
-                _texture = _textureLeft;
+                _texture = _textureDown;
                 return _texture;
             }
 
@@ -56,10 +50,8 @@ public class SolarSpriteObject : ISolarObject
                 _texture = _textureUp;
                 return _texture;
             }
-            else
-            {
-                return _texture;
-            }
+
+            return _texture;
         }
         set => _texture = value;
     }

@@ -38,10 +38,8 @@ public class Solar2D : Game
 
         _earth = new SolarSpriteObject(
             new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
-            Content.Load<Texture2D>("E1"),
-            Content.Load<Texture2D>("E2"),
-            Content.Load<Texture2D>("E3"),
-            Content.Load<Texture2D>("E4"));
+            Content.Load<Texture2D>("FirstEarth"),
+            Content.Load<Texture2D>("SecondEarth"));
         _earth.TextureScale = 0.3f;
 
         // если идеально высчитывать разницу в размерах
