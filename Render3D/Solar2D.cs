@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SolarObjects;
-#pragma warning disable IDE0005
 using SolarObjects.Settings;
-#pragma warning restore IDE0005
 
 namespace Game1;
 
@@ -16,12 +14,8 @@ public class Solar2D : Game
     private readonly SolarSpriteObject _sun;
     private readonly SolarSpriteObject _earth;
 
-#pragma warning disable CA2213
     private GraphicsDeviceManager _graphics;
-#pragma warning disable CA2213
-#pragma warning disable CA2213
     private SpriteBatch? _spriteBatch;
-#pragma warning restore CA2213
 
     public Solar2D()
     {
@@ -44,10 +38,10 @@ public class Solar2D : Game
 
         _earth = new SolarSpriteObject(
             new SolarObject(10, new Vector2((float)Width / 2, ((float)Height / 2) + 299.2f), settings),
-            Content.Load<Texture2D>("FirstEarth"),
-            Content.Load<Texture2D>("SecondEarth"),
-            Content.Load<Texture2D>("ThirdEarth"),
-            Content.Load<Texture2D>("FourthEarth"));
+            Content.Load<Texture2D>("E1"),
+            Content.Load<Texture2D>("E2"),
+            Content.Load<Texture2D>("E3"),
+            Content.Load<Texture2D>("E4"));
         _earth.TextureScale = 0.3f;
 
         // если идеально высчитывать разницу в размерах
@@ -91,5 +85,13 @@ public class Solar2D : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        _graphics.Dispose();
+        _spriteBatch?.Dispose();
+
+        base.Dispose(disposing);
     }
 }

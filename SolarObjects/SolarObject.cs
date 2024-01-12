@@ -11,7 +11,7 @@ public class SolarObject : ISolarObject
     private Vector2 _coordinates;
     private Vector2 _velocity;
 
-    public SolarObject(int mass, Vector2 coordinates,  ISettings settings)
+    public SolarObject(float mass, Vector2 coordinates,  ISettings settings)
     {
         Mass = mass;
         _coordinates = coordinates;
@@ -21,7 +21,7 @@ public class SolarObject : ISolarObject
     }
 
     public Vector2 Coordinates => _coordinates;
-    public int Mass { get; }
+    public float Mass { get; }
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
