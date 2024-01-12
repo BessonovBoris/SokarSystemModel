@@ -89,32 +89,32 @@ public class Solar3D : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0));
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0.5f));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0.5f));
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Up))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, 0.5f, 0));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, -0.5f, 0));
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Down))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, -0.5f, 0));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0, 0.5f, 0));
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Right))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0));
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
         {
-            _worldMatrix *= Matrix.CreateTranslation(new Vector3(-0.5f, 0, 0));
+            _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.5f, 0, 0));
         }
 
         _earth.InteractWithAnotherObject(_sun);
