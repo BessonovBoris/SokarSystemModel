@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -44,8 +45,8 @@ public class Solar2D : Game
             earthAnimation);
         _earth.TextureScale = 0.1f;
 
-        // если идеально высчитывать разницу в размерах
-        // _earth.TextureScale = 0.00917431f;
+        IsFixedTimeStep = true;
+        TargetElapsedTime = TimeSpan.FromSeconds(1d / settings.Fps);
     }
 
     protected override void Initialize()

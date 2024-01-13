@@ -8,4 +8,5 @@ public interface ISettings
     float EarthVelocity { get; }
     float SunMass { get; }
     float EarthMass { get; }
+    int Fps { get; }
 }
