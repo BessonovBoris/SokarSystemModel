@@ -32,12 +32,12 @@ public class SolarSpriteObject : ISolarObject
         _solarObject.Update();
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch, Vector2 worldCoordinates)
     {
         Texture2D texture = _animation.CurrentTexture;
 
         var bias = new Vector2(texture.Width * TextureScale / 2, texture.Height * TextureScale / 2);
-        Vector2 vector2Coordinates = _solarObject.Coordinates - bias;
+        Vector2 vector2Coordinates = _solarObject.Coordinates - bias + worldCoordinates;
 
         spriteBatch.Draw(texture, vector2Coordinates, null, Color.White, 0, Vector2.Zero, TextureScale, SpriteEffects.None, 0);
     }

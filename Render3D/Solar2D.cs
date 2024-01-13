@@ -19,8 +19,15 @@ public class Solar2D : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch? _spriteBatch;
 
+    private Vector2 _worldCoordinates;
+
+    private Vector2? _firstMousePosition;
+    private Vector2 _secondMousePosition;
+
     public Solar2D()
     {
+        _worldCoordinates = new Vector2(0, 0);
+
         _graphics = new GraphicsDeviceManager(this);
         _graphics.IsFullScreen = false;
 
@@ -47,6 +54,9 @@ public class Solar2D : Game
 
         IsFixedTimeStep = true;
         TargetElapsedTime = TimeSpan.FromSeconds(1d / settings.Fps);
+
+        _firstMousePosition = null;
+        _secondMousePosition = Vector2.Zero;
     }
 
     protected override void Initialize()
@@ -61,9 +71,11 @@ public class Solar2D : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
+
+        MouseState mouseState = Mouse.GetState();
+        MouseTranslation(mouseState);
 
         _earth.InteractWithAnotherObject(_sun);
         _earth.Update();
@@ -81,8 +93,8 @@ public class Solar2D : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        _sun.Draw(_spriteBatch);
-        _earth.Draw(_spriteBatch);
+        _sun.Draw(_spriteBatch, _worldCoordinates);
+        _earth.Draw(_spriteBatch, _worldCoordinates);
         _spriteBatch.End();
 
         base.Draw(gameTime);
@@ -94,5 +106,34 @@ public class Solar2D : Game
         _spriteBatch?.Dispose();
 
         base.Dispose(disposing);
+    }
+
+    private void MouseTranslation(MouseState mouseState)
+    {
+        var currentMousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+        if (mouseState.LeftButton == ButtonState.Pressed)
+        {
+            if (_firstMousePosition is null)
+            {
+                _firstMousePosition = currentMousePosition;
+                _secondMousePosition = currentMousePosition;
+            }
+            else if (_firstMousePosition != _secondMousePosition)
+            {
+                Vector2? translationMouse = _secondMousePosition - _firstMousePosition;
+                _worldCoordinates += translationMouse ?? throw new ArgumentException("translationMouse is null");
+                _firstMousePosition = _secondMousePosition;
+            }
+            else
+            {
+                _secondMousePosition = currentMousePosition;
+            }
+        }
+
+        if (mouseState.LeftButton == ButtonState.Released)
+        {
+            _firstMousePosition = null;
+        }
     }
 }
