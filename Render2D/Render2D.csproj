@@ -26,9 +26,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="../SolarObjects/SolarObjects.csproj" />
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303"/>
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
-        <ProjectReference Include="../SolarObjects/SolarObjects.csproj" />
+        <PackageReference Include="SourceKit.Analyzers.Collections" />
+        <PackageReference Include="SourceKit.Analyzers.Enumerable" />
+        <PackageReference Include="SourceKit.Analyzers.MemberAccessibility" />
+        <PackageReference Include="SourceKit.Analyzers.Nullable" />
+        <PackageReference Include="SourceKit.Analyzers.Properties" />
     </ItemGroup>
 
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
