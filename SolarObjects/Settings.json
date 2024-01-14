@@ -1,8 +1,8 @@
 {
   "DistanceScale":5e+5,
   "MassScale":1,
-  "EarthVelocity": 0.00768801,
+  "EarthVelocity": -1,
   "SunMass": 1.9885e+30,
   "EarthMass": 5.9722e+24,
-  "Fps": 30
+  "Fps": 120
 }

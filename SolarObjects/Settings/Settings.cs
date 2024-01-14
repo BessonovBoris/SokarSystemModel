@@ -1,4 +1,6 @@
-﻿namespace SolarObjects.Settings;
+﻿using SolarObjects.Services;
+
+namespace SolarObjects.Settings;
 
 public class Settings : ISettings
 {
@@ -7,7 +9,8 @@ public class Settings : ISettings
         DistanceScale = distanceScale;
         MassScale = massScale;
 
-        EarthVelocity = earthVelocity;
+        Console.WriteLine(earthVelocity);
+        EarthVelocity = earthVelocity.Equal(-1) ? 0.042109f / (float)Math.Sqrt(fps) : earthVelocity;
 
         SunMass = sunMass / MassScale;
         EarthMass = earthMass / MassScale;
