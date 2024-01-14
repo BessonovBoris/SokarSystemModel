@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <RollForward>Major</RollForward>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
@@ -11,18 +10,13 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <ApplicationIcon>Icon.ico</ApplicationIcon>
+        <ApplicationManifest>../Program/app.manifest</ApplicationManifest>
+        <ApplicationIcon>../Program/Icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Icon.ico"/>
-        <None Remove="Icon.bmp"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="Icon.ico"/>
-        <EmbeddedResource Include="Icon.bmp"/>
+        <None Remove="../Program/Icon.ico"/>
+        <None Remove="../Program/Icon.bmp"/>
     </ItemGroup>
 
     <ItemGroup>

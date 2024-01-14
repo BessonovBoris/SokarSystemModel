@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game1;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SolarObjects;
 using SolarObjects.Settings;
 
-namespace Game1;
+namespace Render2D;
 
 public class Solar2D : Game
 {
@@ -35,7 +36,7 @@ public class Solar2D : Game
         _graphics.PreferredBackBufferHeight = Height;
         _graphics.ApplyChanges();
 
-        Content.RootDirectory = "Content";
+        Content.RootDirectory = "C:\\Users\\boris\\RiderProjects\\SolarSystemModel\\Program\\Content";
         IsMouseVisible = true;
 
         ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");

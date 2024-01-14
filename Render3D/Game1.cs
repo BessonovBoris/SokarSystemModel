@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Game1;
+namespace Render3D;
 
 public class Game1 : Game
 {
@@ -34,7 +34,7 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = 486;
         _graphics.ApplyChanges();
 
-        Content.RootDirectory = "Content";
+        Content.RootDirectory = "C:\\Users\\boris\\RiderProjects\\SolarSystemModel\\Program\\Content";
         IsMouseVisible = true;
     }
 
