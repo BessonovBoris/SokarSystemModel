@@ -17,7 +17,7 @@ public class Solar2D : Game
     private readonly SolarSpriteObject _sun;
     private readonly SolarSpriteObject _earth;
 
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch? _spriteBatch;
 
     private Vector2 _worldCoordinates;
@@ -96,6 +96,11 @@ public class Solar2D : Game
         _spriteBatch.Begin();
         _sun.Draw(_spriteBatch, _worldCoordinates);
         _earth.Draw(_spriteBatch, _worldCoordinates);
+
+        float r = 299.2f;
+        DrawOrbit((x) => (float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 100);
+        DrawOrbit((x) => -(float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 100);
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
@@ -136,5 +141,41 @@ public class Solar2D : Game
         {
             _firstMousePosition = null;
         }
+    }
+
+    private void DrawOrbit(Func<float, float> function, float startX, float endX, int accuracy)
+    {
+        float delta = (endX - startX) / accuracy;
+
+        float oldX = startX;
+        float oldY = function(oldX);
+
+        for (float i = startX; i <= endX; i += delta)
+        {
+            float newX = i;
+            float newY = function(newX);
+
+            DrawLine(new Vector2(oldX, oldY), new Vector2(newX, newY));
+            oldX = newX;
+            oldY = newY;
+        }
+    }
+
+    private void DrawLine(Vector2 firstCoordinates, Vector2 secondCoordinates)
+    {
+        Vector2 lineVector = secondCoordinates - firstCoordinates;
+        float angle = lineVector.X / lineVector.Length();
+        angle = (float)Math.Acos(angle);
+
+        if (lineVector.Y < 0)
+        {
+            angle *= -1;
+        }
+
+        using var basePart = new Texture2D(_graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+        basePart.SetData(new[] { Color.White });
+        var rectangle = new Rectangle((int)firstCoordinates.X, (int)firstCoordinates.Y, (int)lineVector.Length(), 2);
+
+        _spriteBatch?.Draw(basePart, rectangle, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 1);
     }
 }
