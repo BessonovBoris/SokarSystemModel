@@ -6,19 +6,18 @@ public class Settings : ISettings
 {
     public Settings(float distanceScale, float massScale, float earthVelocity, float sunMass, float earthMass, int fps)
     {
+        Fps = fps;
+
         DistanceScale = distanceScale;
         MassScale = massScale;
 
-        Console.WriteLine(earthVelocity);
-        EarthVelocity = earthVelocity.Equal(-1) ? 0.042109f / (float)Math.Sqrt(fps) : earthVelocity;
+        EarthVelocity = earthVelocity.Equal(-1) ? 29.783f / (DistanceScale * Fps) : earthVelocity;
+        Console.WriteLine(EarthVelocity);
 
         SunMass = sunMass / MassScale;
         EarthMass = earthMass / MassScale;
 
-        Fps = fps;
-
         ConstantG = 6.67e-11f; // in H*m^2/kg^2
-        ConstantG /= 1e+6f; // in H*kg^2/kg^2
     }
 
     // 1 newKM = DistanceScale km

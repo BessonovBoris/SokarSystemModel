@@ -5,7 +5,7 @@ namespace SolarObjects;
 
 public class SolarObject : ISolarObject
 {
-    private const float VelocityRatio = 1e+3f;
+    private const float VelocityRatio = 1e+7f;
 
     private readonly ISettings _settings;
 
@@ -28,8 +28,9 @@ public class SolarObject : ISolarObject
     {
         Vector3 radiusVector = _coordinates - solarObject.Coordinates;
 
-        double ratio = -1 * _settings.ConstantG * 1e-3f * solarObject.Mass / (Math.Pow(radiusVector.Length(), 3) * _settings.Fps * _settings.DistanceScale * _settings.DistanceScale);
+        double ratio = -1 * _settings.ConstantG * 1e-9f * solarObject.Mass / (Math.Pow(radiusVector.Length() * _settings.DistanceScale, 3) * Math.Pow(_settings.Fps, 2));
         Vector3 velocity = (float)ratio * radiusVector;
+        Console.WriteLine(velocity);
 
         _velocity += velocity * VelocityRatio * VelocityRatio;
     }
