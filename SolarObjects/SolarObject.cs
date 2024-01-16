@@ -30,7 +30,6 @@ public class SolarObject : ISolarObject
 
         double ratio = -1 * _settings.ConstantG * 1e-9f * solarObject.Mass / (Math.Pow(radiusVector.Length() * _settings.DistanceScale, 3) * Math.Pow(_settings.Fps, 2));
         Vector3 velocity = (float)ratio * radiusVector;
-        Console.WriteLine(velocity);
 
         _velocity += velocity * VelocityRatio * VelocityRatio;
     }

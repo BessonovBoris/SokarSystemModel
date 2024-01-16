@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Apos.Shapes;
 using Game1;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,6 +26,8 @@ public class Solar2D : Game
     private Vector2? _firstMousePosition;
     private Vector2 _secondMousePosition;
 
+    private ShapeBatch _shapeBatch;
+
     public Solar2D()
     {
         _worldCoordinates = new Vector2(0, 0);
@@ -34,6 +37,7 @@ public class Solar2D : Game
 
         _graphics.PreferredBackBufferWidth = Width;
         _graphics.PreferredBackBufferHeight = Height;
+        _graphics.GraphicsProfile = GraphicsProfile.HiDef;
         _graphics.ApplyChanges();
 
         Content.RootDirectory = "C:\\Users\\boris\\RiderProjects\\SolarSystemModel\\Program\\Content";
@@ -58,6 +62,8 @@ public class Solar2D : Game
 
         _firstMousePosition = null;
         _secondMousePosition = Vector2.Zero;
+
+        _shapeBatch = new ShapeBatch(GraphicsDevice, Content);
     }
 
     protected override void Initialize()
@@ -96,12 +102,14 @@ public class Solar2D : Game
         _spriteBatch.Begin();
         _sun.Draw(_spriteBatch, _worldCoordinates);
         _earth.Draw(_spriteBatch, _worldCoordinates);
+        _spriteBatch.End();
+
+        _shapeBatch.Begin();
 
         float r = 299.2f;
-        DrawOrbit((x) => (float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 100);
-        DrawOrbit((x) => -(float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 100);
-
-        _spriteBatch.End();
+        DrawOrbit((x) => (float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 3000);
+        DrawOrbit((x) => -(float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 3000);
+        _shapeBatch.End();
 
         base.Draw(gameTime);
     }
@@ -155,27 +163,9 @@ public class Solar2D : Game
             float newX = i;
             float newY = function(newX);
 
-            DrawLine(new Vector2(oldX, oldY), new Vector2(newX, newY));
+            _shapeBatch.FillLine(new Vector2(oldX, oldY), new Vector2(newX, newY), 1, Color.White);
             oldX = newX;
             oldY = newY;
         }
-    }
-
-    private void DrawLine(Vector2 firstCoordinates, Vector2 secondCoordinates)
-    {
-        Vector2 lineVector = secondCoordinates - firstCoordinates;
-        float angle = lineVector.X / lineVector.Length();
-        angle = (float)Math.Acos(angle);
-
-        if (lineVector.Y < 0)
-        {
-            angle *= -1;
-        }
-
-        using var basePart = new Texture2D(_graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        basePart.SetData(new[] { Color.White });
-        var rectangle = new Rectangle((int)firstCoordinates.X, (int)firstCoordinates.Y, (int)lineVector.Length(), 2);
-
-        _spriteBatch?.Draw(basePart, rectangle, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 1);
     }
 }

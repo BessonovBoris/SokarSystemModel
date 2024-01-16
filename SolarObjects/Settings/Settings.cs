@@ -12,7 +12,6 @@ public class Settings : ISettings
         MassScale = massScale;
 
         EarthVelocity = earthVelocity.Equal(-1) ? 29.783f / (DistanceScale * Fps) : earthVelocity;
-        Console.WriteLine(EarthVelocity);
 
         SunMass = sunMass / MassScale;
         EarthMass = earthMass / MassScale;
