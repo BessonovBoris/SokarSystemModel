@@ -22,9 +22,6 @@ public class Game1 : Game
     private Matrix _projectionMatrix;
     private Matrix _viewMatrix;
     private Matrix _worldMatrix;
-
-    // // Orbit
-    // private bool orbit;
     private Model? _model;
     private Model? _model2;
 
@@ -34,11 +31,13 @@ public class Game1 : Game
         _camTar = new Vector3(0f, 0, 1f);
 
         _graphics = new GraphicsDeviceManager(this);
+
         _graphics.IsFullScreen = false;
 
         _graphics.PreferredBackBufferWidth = 864;
         _graphics.PreferredBackBufferHeight = 486;
         _graphics.ApplyChanges();
+        _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -46,8 +45,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // _camTar = new Vector3(0f, 0f, 0f);
-        // _camPos = new Vector3(0f, 0f, -100f);
         _viewMatrix = Matrix.CreateLookAt(_camPos, _camTar, Vector3.Up);
 
         _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
@@ -58,7 +55,6 @@ public class Game1 : Game
 
         _worldMatrix = Matrix.CreateWorld(new Vector3(0f, 0f, 10f), new Vector3(0, 0, -1), Vector3.Up);
 
-        // _worldMatrix = Matrix.CreateWorld(_camTar, Vector3.Forward, Vector3.Up);
         base.Initialize();
     }
 
@@ -77,7 +73,6 @@ public class Game1 : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.Up))
         {
-            // _worldMatrix *= Matrix.CreateRotationX(MathHelper.ToRadians(1));
             var rotateMatrixY = new Matrix(
                 new Vector4((float)Math.Cos(CamSpeed), 0, -(float)Math.Sin(CamSpeed), 0),
                 new Vector4(0, 1, 0, 0),
@@ -90,7 +85,6 @@ public class Game1 : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.Down))
         {
-            // _worldMatrix *= Matrix.CreateRotationX(-1 * MathHelper.ToRadians(1));
             var rotateMatrixY = new Matrix(
                 new Vector4((float)Math.Cos(CamSpeed), 0, -(float)Math.Sin(CamSpeed), 0),
                 new Vector4(0, 1, 0, 0),
@@ -103,7 +97,6 @@ public class Game1 : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.Left))
         {
-            // _worldMatrix *= Matrix.CreateRotationY(-1 * MathHelper.ToRadians(1));
             var rotateMatrixZ = new Matrix(
                 new Vector4((float)Math.Cos(CamSpeed), (float)Math.Sin(CamSpeed), 0, 0),
                 new Vector4(-(float)Math.Sin(CamSpeed), (float)Math.Cos(CamSpeed), 0, 0),
@@ -116,7 +109,6 @@ public class Game1 : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.Right))
         {
-            // _worldMatrix *= Matrix.CreateRotationY(MathHelper.ToRadians(1));
             var rotateMatrixZ = new Matrix(
                 new Vector4((float)Math.Cos(CamSpeed), (float)Math.Sin(CamSpeed), 0, 0),
                 new Vector4(-(float)Math.Sin(CamSpeed), (float)Math.Cos(CamSpeed), 0, 0),
@@ -147,8 +139,6 @@ public class Game1 : Game
             _worldMatrix *= Matrix.CreateTranslation(new Vector3(0.1f, 0, 0));
         }
 
-        // _worldMatrix *= Matrix.CreateRotationX(MathHelper.ToRadians(1));
-        // _worldMatrix *= Matrix.CreateRotationY(-1 * MathHelper.ToRadians(1));
         _viewMatrix = Matrix.CreateLookAt(_camPos, _camTar, Vector3.Up);
 
         base.Update(gameTime);
@@ -180,7 +170,6 @@ public class Game1 : Game
             mesh.Draw();
         }
 
-        // _worldMatrix += Matrix.CreateTranslation(new Vector3(2, 2, 0));
         foreach (ModelMesh mesh in _model2.Meshes)
         {
             foreach (BasicEffect effect in mesh.Effects)

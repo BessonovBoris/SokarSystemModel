@@ -1,7 +1,7 @@
 {
-  "DistanceScale": 500,
-  "ConstantG": 0.0000000667,
-  "EarthVelocity": 2,
-  "SunMass": 3329400,
-  "EarthMass": 1000
+  "DistanceScale": 5e+5,
+  "ConstantG": 0.00667,
+  "EarthVelocity": -1,
+  "SunMass": 35,
+  "EarthMass": 40
 }

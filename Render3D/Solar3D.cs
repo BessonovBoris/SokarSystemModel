@@ -28,11 +28,13 @@ public class Solar3D : Game
         _camTar = new Vector3(0, 0, 0);
 
         _graphics = new GraphicsDeviceManager(this);
+
         _graphics.IsFullScreen = false;
 
         _graphics.PreferredBackBufferWidth = 1900;
         _graphics.PreferredBackBufferHeight = 1060;
         _graphics.ApplyChanges();
+        _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -44,11 +46,11 @@ public class Solar3D : Game
 
         _sun = new SolarModelObject(
             new SolarObject(settings.SunMass, new Vector3(0, 0, 0), settings),
-            Content.Load<Model>("Globe"));
+            Content.Load<Model>("MySun"));
 
         _earth = new SolarModelObject(
             new SolarObject(settings.EarthMass, new Vector3(70.71f, 70.71f, 0), settings),
-            Content.Load<Model>("Globe"));
+            Content.Load<Model>("MyEarth"));
     }
 
     protected override void Initialize()
@@ -125,7 +127,7 @@ public class Solar3D : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.DarkBlue);
 
         _effect.World = _worldMatrix;
         _effect.View = _viewMatrix;

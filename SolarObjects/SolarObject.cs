@@ -23,10 +23,8 @@ public class SolarObject : ISolarObject
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
-        // TODO: как сделать нормальный масштаб???? Я НЕ ПОНИМАЮ
         Vector3 radiusVector = _coordinates - solarObject.Coordinates;
         Vector3 velocity = -1 * _settings.ConstantG * solarObject.Mass * radiusVector / (float)Math.Pow(radiusVector.Length(), 1);
-
         _velocity += velocity;
     }
 
