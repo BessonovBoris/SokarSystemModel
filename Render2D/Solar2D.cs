@@ -14,6 +14,11 @@ public class Solar2D : Game
 {
     private const int Width = 1600;
     private const int Height = 900;
+    private const float P = 299.2f;
+
+    private readonly float _earthRadius;
+
+    private readonly ShapeBatch _shapeBatch;
 
     private readonly SolarSpriteObject _sun;
     private readonly SolarSpriteObject _earth;
@@ -26,10 +31,11 @@ public class Solar2D : Game
     private Vector2? _firstMousePosition;
     private Vector2 _secondMousePosition;
 
-    private ShapeBatch _shapeBatch;
-
     public Solar2D()
     {
+        ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
+
+        _earthRadius = 149.6e+6f / settings.DistanceScale;
         _worldCoordinates = new Vector2(0, 0);
 
         _graphics = new GraphicsDeviceManager(this);
@@ -43,7 +49,13 @@ public class Solar2D : Game
         Content.RootDirectory = "C:\\Users\\boris\\RiderProjects\\SolarSystemModel\\Program\\Content";
         IsMouseVisible = true;
 
-        ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
+        IsFixedTimeStep = true;
+        TargetElapsedTime = TimeSpan.FromSeconds(1d / settings.Fps);
+
+        _firstMousePosition = null;
+        _secondMousePosition = Vector2.Zero;
+
+        _shapeBatch = new ShapeBatch(GraphicsDevice, Content);
 
         IAnimation sunAnimation = new SunAnimation(new List<Texture2D> { Content.Load<Texture2D>("Sun") });
         _sun = new SolarSpriteObject(
@@ -53,17 +65,9 @@ public class Solar2D : Game
 
         IAnimation earthAnimation = new EarthAnimation(new List<Texture2D> { Content.Load<Texture2D>("FirstEarth"), Content.Load<Texture2D>("SecondEarth") });
         _earth = new SolarSpriteObject(
-            new SolarObject(settings.EarthMass, new Vector3((float)Width / 2, ((float)Height / 2) + 299.2f, 0), settings),
+            new SolarObject(settings.EarthMass, new Vector3((float)Width / 2, ((float)Height / 2) + _earthRadius, 0), settings),
             earthAnimation);
         _earth.TextureScale = 0.1f;
-
-        IsFixedTimeStep = true;
-        TargetElapsedTime = TimeSpan.FromSeconds(1d / settings.Fps);
-
-        _firstMousePosition = null;
-        _secondMousePosition = Vector2.Zero;
-
-        _shapeBatch = new ShapeBatch(GraphicsDevice, Content);
     }
 
     protected override void Initialize()
@@ -105,10 +109,7 @@ public class Solar2D : Game
         _spriteBatch.End();
 
         _shapeBatch.Begin();
-
-        float r = 299.2f;
-        DrawOrbit((x) => (float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 3000);
-        DrawOrbit((x) => -(float)Math.Sqrt((r * r) - (float)Math.Pow(x - (Width / 2), 2)) + (Height / 2), (Width / 2) - 299.2f, (Width / 2) + 299.2f, 3000);
+        DrawOrbit((x) => P / (1 + (0.001672f * (float)Math.Cos(x))), 0, 2 * (float)Math.PI, 1000);
         _shapeBatch.End();
 
         base.Draw(gameTime);
@@ -120,6 +121,16 @@ public class Solar2D : Game
         _spriteBatch?.Dispose();
 
         base.Dispose(disposing);
+    }
+
+    private static float FromPolarToX(float r, float phi)
+    {
+        return r * (float)Math.Cos(phi);
+    }
+
+    private static float FromPolarToY(float r, float phi)
+    {
+        return r * (float)Math.Sin(phi);
     }
 
     private void MouseTranslation(MouseState mouseState)
@@ -163,7 +174,12 @@ public class Solar2D : Game
             float newX = i;
             float newY = function(newX);
 
-            _shapeBatch.FillLine(new Vector2(oldX, oldY), new Vector2(newX, newY), 1, Color.White);
+            _shapeBatch.FillLine(
+                new Vector2(FromPolarToX(oldY, oldX) + (Width / 2), FromPolarToY(oldY, oldX) + (Height / 2)),
+                new Vector2(FromPolarToX(newY, newX) + (Width / 2), FromPolarToY(newY, newX) + (Height / 2)),
+                1,
+                Color.White);
+
             oldX = newX;
             oldY = newY;
         }
