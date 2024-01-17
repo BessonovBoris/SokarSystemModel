@@ -14,7 +14,9 @@ public class Solar2D : Game
 {
     private const int Width = 1600;
     private const int Height = 900;
-    private const float P = 299.2f;
+    private const float EarthEccentricity = 0.0167086f;
+
+    private readonly float _p;
 
     private readonly float _earthRadius;
 
@@ -34,6 +36,7 @@ public class Solar2D : Game
     public Solar2D()
     {
         ISettings settings = JsonSettingsReader.LoadSettings("../../../../SolarObjects/Settings.json");
+        _p = 149.6e+6f * (1 - (EarthEccentricity * EarthEccentricity)) / settings.DistanceScale;
 
         _earthRadius = 149.6e+6f / settings.DistanceScale;
         _worldCoordinates = new Vector2(0, 0);
@@ -109,7 +112,7 @@ public class Solar2D : Game
         _spriteBatch.End();
 
         _shapeBatch.Begin();
-        DrawOrbit((x) => P / (1 + (0.001672f * (float)Math.Cos(x))), 0, 2 * (float)Math.PI, 1000);
+        DrawOrbit((x) => _p / (1 + (EarthEccentricity * (float)Math.Cos(x))), 0, 2 * (float)Math.PI, 1000);
         _shapeBatch.End();
 
         base.Draw(gameTime);
@@ -174,9 +177,15 @@ public class Solar2D : Game
             float newX = i;
             float newY = function(newX);
 
+            var firstPoint = new Vector2(FromPolarToX(oldY, oldX) + (Width / 2), FromPolarToY(oldY, oldX) + (Height / 2));
+            var secondPoint = new Vector2(FromPolarToX(newY, newX) + (Width / 2), FromPolarToY(newY, newX) + (Height / 2));
+
+            firstPoint += _worldCoordinates;
+            secondPoint += _worldCoordinates;
+
             _shapeBatch.FillLine(
-                new Vector2(FromPolarToX(oldY, oldX) + (Width / 2), FromPolarToY(oldY, oldX) + (Height / 2)),
-                new Vector2(FromPolarToX(newY, newX) + (Width / 2), FromPolarToY(newY, newX) + (Height / 2)),
+                firstPoint,
+                secondPoint,
                 1,
                 Color.White);
 
