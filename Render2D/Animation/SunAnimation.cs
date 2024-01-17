@@ -17,7 +17,7 @@ public class SunAnimation : IAnimation
 
     public Texture2D CurrentTexture => _currentTexture;
 
-    public void ChangeTexture(Vector2 coordinates)
+    public void ChangeTexture(GameTime gameTime)
     {
         _currentTexture = _textures[0];
     }

@@ -6,5 +6,5 @@ namespace Game1;
 public interface IAnimation
 {
     Texture2D CurrentTexture { get; }
-    void ChangeTexture(Vector2 coordinates);
+    void ChangeTexture(GameTime gameTime);
 }

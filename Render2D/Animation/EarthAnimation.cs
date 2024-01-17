@@ -17,19 +17,9 @@ public class EarthAnimation : IAnimation
 
     public Texture2D CurrentTexture => _currentTexture;
 
-    public void ChangeTexture(Vector2 coordinates)
+    public void ChangeTexture(GameTime gameTime)
     {
-        var v1 = new Vector2(1, 0);
-        float angle = (coordinates.X * v1.X) + (coordinates.Y * v1.Y);
-        angle /= coordinates.Length();
-
-        if (angle.Equal(1))
-        {
-            _currentTexture = _textures[1];
-        }
-        else if (angle.Equal(-1))
-        {
-            _currentTexture = _textures[0];
-        }
+        int index = ((int)gameTime.TotalGameTime.TotalMilliseconds / 10) % _textures.Count;
+        _currentTexture = _textures[index];
     }
 }

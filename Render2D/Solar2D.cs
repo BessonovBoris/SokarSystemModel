@@ -66,7 +66,13 @@ public class Solar2D : Game
             sunAnimation);
         _sun.TextureScale = 0.2f;
 
-        IAnimation earthAnimation = new EarthAnimation(new List<Texture2D> { Content.Load<Texture2D>("FirstEarth"), Content.Load<Texture2D>("SecondEarth") });
+        IList<Texture2D> earthAnimationSprites = new List<Texture2D>(48);
+        for (int i = 1; i <= 48; i++)
+        {
+            earthAnimationSprites.Add(Content.Load<Texture2D>("Earth" + i));
+        }
+
+        IAnimation earthAnimation = new EarthAnimation(earthAnimationSprites);
         _earth = new SolarSpriteObject(
             new SolarObject(settings.EarthMass, new Vector3((float)Width / 2, ((float)Height / 2) + _earthRadius, 0), settings),
             earthAnimation);
@@ -92,6 +98,7 @@ public class Solar2D : Game
         MouseTranslation(mouseState);
 
         _earth.InteractWithAnotherObject(_sun);
+        _earth.Animation.ChangeTexture(gameTime);
         _earth.Update();
 
         base.Update(gameTime);

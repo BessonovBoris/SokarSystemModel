@@ -20,13 +20,10 @@ public class SolarSpriteObject : ISolarObject
 
     public Vector3 Coordinates => _solarObject.Coordinates;
     public float Mass => _solarObject.Mass;
+    public IAnimation Animation => _animation;
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
-        var coordinates2D = new Vector2(Coordinates.X, Coordinates.Y);
-        coordinates2D -= new Vector2(solarObject.Coordinates.X, solarObject.Coordinates.Y);
-
-        _animation.ChangeTexture(coordinates2D);
         _solarObject.InteractWithAnotherObject(solarObject);
     }
 
