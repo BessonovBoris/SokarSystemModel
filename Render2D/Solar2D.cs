@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Apos.Shapes;
 using Game1;
 using Microsoft.Xna.Framework;
@@ -49,7 +50,9 @@ public class Solar2D : Game
         _graphics.GraphicsProfile = GraphicsProfile.HiDef;
         _graphics.ApplyChanges();
 
-        Content.RootDirectory = "C:\\Users\\boris\\RiderProjects\\SolarSystemModel\\Program\\Content";
+        var fileInfo = new FileInfo("..\\..\\..\\Content");
+
+        Content.RootDirectory = fileInfo.DirectoryName + "\\Content";
         IsMouseVisible = true;
 
         IsFixedTimeStep = true;
