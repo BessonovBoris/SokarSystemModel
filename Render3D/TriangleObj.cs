@@ -32,7 +32,7 @@ public class TriangleObj : ISolarObject
     }
 
     public Vector3 Coordinates => _solarObject.Coordinates;
-    public int Mass => _solarObject.Mass;
+    public float Mass => _solarObject.Mass;
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {

@@ -1,44 +1,41 @@
 ﻿using Microsoft.Xna.Framework;
+using SolarObjects.Settings;
 
 namespace SolarObjects;
 
 public class SolarObject : ISolarObject
 {
-    private const float Scale = 29920000;
-    private const float G = 12;
+    private const float VelocityRatio = 1e+7f;
+
+    private readonly ISettings _settings;
+
     private Vector3 _coordinates;
     private Vector3 _velocity;
 
-    public SolarObject(int mass)
-    {
-        _coordinates = Vector3.Zero;
-        _velocity = Vector3.Zero;
-        Mass = mass;
-    }
-
-    public SolarObject(int mass, Vector3 coordinates)
+    public SolarObject(float mass, Vector3 coordinates,  ISettings settings)
     {
         Mass = mass;
         _coordinates = coordinates;
+        _settings = settings;
 
-        _velocity = Vector3.Zero;
+        _velocity = new Vector3(_settings.EarthVelocity, 0, 0) * VelocityRatio;
     }
 
     public Vector3 Coordinates => _coordinates;
-    public int Mass { get; }
+    public float Mass { get; }
 
     public void InteractWithAnotherObject(ISolarObject solarObject)
     {
         Vector3 radiusVector = _coordinates - solarObject.Coordinates;
-        Vector3 velocity = -G * solarObject.Mass * radiusVector / (radiusVector.Length() * Scale);
 
-        _velocity += velocity;
+        double ratio = -1 * _settings.ConstantG * 1e-9f * solarObject.Mass / (Math.Pow(radiusVector.Length() * _settings.DistanceScale, 3) * Math.Pow(_settings.Fps, 2));
+        Vector3 velocity = (float)ratio * radiusVector;
+
+        _velocity += velocity * VelocityRatio * VelocityRatio;
     }
 
     public void Update()
     {
-        _coordinates += _velocity / 100;
-
-        // _velocity = Vector3.Zero;
+        _coordinates += _velocity;
     }
 }

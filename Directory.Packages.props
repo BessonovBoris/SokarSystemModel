@@ -6,6 +6,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageVersion Include="Apos.Shapes" Version="0.2.3"/>
     <PackageVersion Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303"/>
     <PackageVersion Include="MonoGame.Content.Builder.Task" Version="3.8.1.303"/>
     <PackageVersion Include="Spectre.Console" Version="0.48.0" />

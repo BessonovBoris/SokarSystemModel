@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
+        <ApplicationIcon>Icon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../UserInterface/UserInterface.csproj" />
+        <ProjectReference Include="../Render2D/Render2D.csproj" />
+        <ProjectReference Include="../Render3D/Render3D.csproj" />
+        <ProjectReference Include="../SolarObjects/SolarObjects.csproj" />
+        <PackageReference Include="SourceKit.Analyzers.Collections" />
+        <PackageReference Include="SourceKit.Analyzers.Enumerable" />
+        <PackageReference Include="SourceKit.Analyzers.MemberAccessibility" />
+        <PackageReference Include="SourceKit.Analyzers.Nullable" />
+        <PackageReference Include="SourceKit.Analyzers.Properties" />
+    </ItemGroup>
+
+</Project>
